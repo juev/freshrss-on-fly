@@ -1,0 +1,29 @@
+# fly.toml file generated for freshrss-on-fly on 2022-09-26T13:20:53+03:00
+
+app = "freshrss-on-fly"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  image = "freshrss/freshrss:latest" # latest is the most recent stable release
+
+[env]
+  TZ="Europe/Moscow"
+  CRON_MIN="1,31"
+  SERVER_DNS="fresh.juev.org"
+
+# persist data
+[[mounts]]
+  destination = "/var/www/FreshRSS/data"
+  source = "freshrss_juev"
+
+# https traffic
+[[services]]
+  internal_port = 80
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
